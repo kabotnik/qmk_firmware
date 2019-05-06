@@ -6,14 +6,16 @@
 // entirely and just use numbers.
 #define _QWERTY 0
 #define _COLEMAK 1
+#define _GAME 2
 #define _LOWER 3
 #define _RAISE 4
-#define _FUNCTION 15
+#define _FN 15
 #define _ADJUST 16
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   COLEMAK,
+  GAME,
   LOWER,
   RAISE,
   FUNCTION,
@@ -30,54 +32,72 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------. ,-----------------------------------------.
  * | Tab  |   Q  |   W  |   E  |   R  |   T  | |   Y  |   U  |   I  |   O  |   P  | Bksp |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * | Func |   A  |   S  |   D  |   F  |   G  | |   H  |   J  |   K  |   L  |   ;  | Enter|
+ * | Esc  |   A  |   S  |   D  |   F  |   G  | |   H  |   J  |   K  |   L  |   ;  | Enter|
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   V  |   B  | |   N  |   M  |   ,  |   .  |   /  |  '   |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * | Ctrl |   `  | GUI  | Alt  |Lower |Space | |Space |Raise | Left | Down |  Up  |Right |
+ * | Ctrl | Func | GUI  | Alt  |Lower |Space | |Space |Raise | Left | Down |  Up  | Right|
  * `-----------------------------------------' '-----------------------------------------'
  */
 [_QWERTY] = LAYOUT( \
-  KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,  KC_T,   KC_Y,   KC_U,  KC_I,    KC_O,    KC_P,    KC_BSPC, \
-  FUNCTION, KC_A,   KC_S,    KC_D,    KC_F,  KC_G,   KC_H,   KC_J,  KC_K,    KC_L,    KC_SCLN, KC_ENT,  \
-  KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,  KC_B,   KC_N,   KC_M,  KC_COMM, KC_DOT,  KC_SLSH, KC_QUOT, \
-  KC_LCTL,  KC_GRV, KC_LGUI, KC_LALT, LOWER, KC_SPC, KC_SPC, RAISE, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+  KC_TAB,   KC_Q,     KC_W,    KC_E,    KC_R,  KC_T,   KC_Y,   KC_U,  KC_I,    KC_O,    KC_P,    KC_BSPC, \
+  KC_ESC,   KC_A,     KC_S,    KC_D,    KC_F,  KC_G,   KC_H,   KC_J,  KC_K,    KC_L,    KC_SCLN, KC_ENT,  \
+  KC_LSFT,  KC_Z,     KC_X,    KC_C,    KC_V,  KC_B,   KC_N,   KC_M,  KC_COMM, KC_DOT,  KC_SLSH, KC_QUOT, \
+  KC_LCTL,  MO(_FN),  KC_LGUI, KC_LALT, LOWER, KC_SPC, KC_SPC, RAISE, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
 ),
 
 /* Colemak
  * ,-----------------------------------------. ,-----------------------------------------.
  * | Tab  |   Q  |   W  |   F  |   P  |   G  | |   J  |   L  |   U  |   Y  |   ;  | Bksp |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * | Esc  |   A  |   R  |   S  |   T  |   D  | |   H  |   N  |   E  |   I  |   O  |Enter |
+ * | Esc  |   A  |   R  |   S  |   T  |   D  | |   H  |   N  |   E  |   I  |   O  | Enter|
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   V  |   B  | |   K  |   M  |   ,  |   .  |   /  |  "   |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * | Ctrl | Func | Alt  | GUI  |Lower |Space | |Space |Raise | Left | Down |  Up  |Right |
+ * | Ctrl | Func | Alt  | GUI  |Lower |Space | |Space |Raise | Left | Down |  Up  | Right|
  * `-----------------------------------------' `-----------------------------------------'
  */
 [_COLEMAK] = LAYOUT( \
   KC_TAB,  KC_Q,      KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC, \
   KC_ESC,  KC_A,      KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,  \
   KC_LSFT, KC_Z,      KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_QUOT, \
-  KC_LCTL, FUNCTION,  KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+  KC_LCTL, MO(_FN),   KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+),
+
+/* Game
+ * ,-----------------------------------------. ,-----------------------------------------.
+ * | Esc  |   Q  |   W  |   E  |   R  |   T  | |      |      |  Up  |      |      |      |
+ * |------+------+------+------+------+------| |------+------+------+------+------+------|
+ * | Caps |   A  |   S  |   D  |      |      | |      | Left | Down | Right|      | Enter|
+ * |------+------+------+------+------+------| |------+------+------+------+------+------|
+ * | Shift|   Z  |   X  |   C  |      |      | |      |      |      |      |      |      |
+ * |------+------+------+------+------+------| |------+------+------+------+------+------|
+ * | Ctrl | Alt  | Tab  | Enter|      |Space | |Space |      |      |      |      |      |
+ * `-----------------------------------------' '-----------------------------------------'
+ */
+[_GAME] = LAYOUT( \
+  KC_ESC,  KC_Q,    KC_W,   KC_E,     KC_R,    KC_T,    _______, _______, KC_UP,   _______, _______, _______, \
+  KC_CAPS, KC_A,    KC_S,   KC_D,     _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, KC_ENTER, \
+  KC_LSFT, KC_Z,    KC_X,   KC_C,     _______, _______, _______, _______, _______, _______, _______, _______, \
+  KC_LCTL, KC_LALT, KC_TAB, KC_ENTER, _______, KC_SPC,  KC_SPC, _______, _______, _______, _______, _______  \
 ),
 
 /* Lower
  * ,-----------------------------------------. ,-----------------------------------------.
  * | Esc  |   !  |   @  |   #  |   $  |   %  | |   ^  |   &  |   *  |   (  |   )  | Del  |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * |  F1  |  F2  |  F3  |  F4  |      |      | |      |   _  |   +  |   {  |   }  |Enter |
+ * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  | |      |   _  |   +  |   {  |   }  |Enter |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * |  F5  |  F6  |  F7  |  F8  |      |      | |      |      |   `  |   ,  |   .  |  |   |
+ * |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 | |      |      |   `  |   ,  |   .  |  |   |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * |  F9  |  F10 |  F11 |  F12 |      | Bksp | | Bksp |      | Next | Vol- | Vol+ | Play |
+ * | Ctrl | Shift| Alt  |      |      | Bksp | | Bksp |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------' `-----------------------------------------'
  */
 [_LOWER] = LAYOUT( \
   KC_ESC,  KC_EXLM,  KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,  \
-  KC_F1,   KC_F2,    KC_F3,   KC_F4,   _______, _______, _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, _______, \
-  KC_F5,   KC_F6,    KC_F7,   KC_F8,   _______, _______, _______, _______, KC_GRV,  KC_COMM, KC_DOT,  KC_PIPE, \
-  KC_F9,   KC_F10,   KC_F11,  KC_F12,  _______, KC_BSPC, KC_BSPC, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY  \
+  KC_F1,   KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,   _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, _______, \
+  KC_F7,   KC_F8,    KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, KC_GRV,  KC_COMM, KC_DOT,  KC_PIPE, \
+  KC_LCTL, KC_LSFT,  KC_LALT, _______, _______, KC_BSPC, KC_BSPC, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY  \
 ),
 
 /* Raise
@@ -86,16 +106,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
  * |      |   4  |   5  |   6  |   +  |  F5  | |  F6  |   -  |   =  |   [  |   ]  |Enter |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * |Enter |   7  |   8  |   9  |   -  |  F11 | |  F12 |ISO # |ISO / | Mute |      |   \  |
+ * |Enter |   7  |   8  |   9  |   -  |  F11 | |  F12 |ISO # |ISO / | Vol- | Vol+ |   \  |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * |      |   ,  |   0  |  .   |Lower | Bksp | | Bksp |Raise | Next | Vol- | Vol+ | Play |
+ * |      |   ,  |   0  |  .   |Lower | Bksp | | Bksp |Raise | Prev | Next | Mute | Play |
  * `-----------------------------------------' `-----------------------------------------'
  */
 [_RAISE] = LAYOUT( \
   KC_ESC,  KC_1,    KC_2,  KC_3,   KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,  \
   _______, KC_4,    KC_5,  KC_6,   KC_PLUS, KC_F5,   KC_F6,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, _______, \
-  KC_ENT,  KC_7,    KC_8,  KC_9,   KC_MINS, KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, KC_MUTE, _______, KC_BSLS, \
-  _______, KC_COMM, KC_0,  KC_DOT, _______, KC_BSPC, KC_BSPC, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY  \
+  KC_ENT,  KC_7,    KC_8,  KC_9,   KC_MINS, KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, KC_VOLD, KC_VOLU, KC_BSLS, \
+  _______, KC_COMM, KC_0,  KC_DOT, _______, KC_BSPC, KC_BSPC, _______, KC_MPRV, KC_MNXT, KC_VOLD, KC_MPLY  \
 ),
 
 /* Adjust (Lower + Raise)
@@ -112,27 +132,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJUST] = LAYOUT( \
   TSKMGR,  _______, _______, COLEMAK, _______, _______, _______, _______, RGB_VAI, RGB_SAI, RGB_HUI, CALTDEL, \
   _______, _______, _______, QWERTY,  _______, _______, _______, _______, RGB_VAD, RGB_SAD, RGB_HUD, RGB_TOG, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, BL_STEP, \
+  _______, _______, _______, GAME,    _______, _______, _______, _______, _______, _______, _______, BL_STEP, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET    \
 ),
 
 
 /* Function
  * ,-----------------------------------------. ,-----------------------------------------.
- * |      |      |      |      |      |      | |      |      |  Up  |      |      |      |
- * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * |      |      |      |      |      |      | |      | Left | Down |Right |      |      |
- * |------+------+------+------+------+------| |------+------+------+------+------+------|
- * | Caps |      |      |      |      |      | |      |      |      |      |      |      |
+ * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  | |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
  * |------+------+------+------+------+------| |------+------+------+------+------+------|
  * |      |      |      |      |      |      | |      |      |      |      |      |      |
+ * |------+------+------+------+------+------| |------+------+------+------+------+------|
+ * | Caps |      |      |      |      |      | |      |      |PrScrn|Scrn- |Scrn+ |Insert|
+ * |------+------+------+------+------+------| |------+------+------+------+------+------|
+ * |      |      |      |      |      |      | |      |      | Home |PgDown| PgUp | End  |
  * `-----------------------------------------' `-----------------------------------------'
  */
-[_FUNCTION] = LAYOUT( \
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_UP,   _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, \
-  KC_CAPS, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
+[_FN] = LAYOUT( \
+  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,      KC_F10,    KC_F11,  KC_F12, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______,    _______,   _______, _______, \
+  KC_CAPS, _______, _______, _______, _______, _______, _______, _______, KC_PSCREEN, KC_BRID,   KC_BRIU, KC_INSERT, \
+  _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME,    KC_PGDOWN, KC_PGUP, KC_END   \
 )
 
 };
@@ -154,6 +174,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case COLEMAK:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_COLEMAK);
+//        persistent_default_layer_set(1UL<<_COLEMAK);
+      }
+      return false;
+      break;
+    case GAME:
+      if (record->event.pressed) {
+        set_single_persistent_default_layer(_GAME);
 //        persistent_default_layer_set(1UL<<_COLEMAK);
       }
       return false;
